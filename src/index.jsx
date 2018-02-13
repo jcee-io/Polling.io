@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './Components/App';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
+const Main = () => (
+	<div>
+	  <BrowserRouter>
+	    <App/>
+	  </BrowserRouter>
+	</div>
+);
 document.addEventListener('DOMContentLoaded', function() {
-  ReactDOM.render(
-  	<Router>
-      <App/>
-    <Router>
-    ,document.getElementById('app')
-  );
+  ReactDOM.render(<Main />,document.getElementById('app'));
 });
