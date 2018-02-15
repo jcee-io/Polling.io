@@ -49,6 +49,7 @@ class App extends Component {
   	e.preventDefault();
 
   	const { data } = await axios.post('/login', { username, password });
+  	console.log(data);
   }
   async handleSignUp(e) {
     const form = e.target;

@@ -29,10 +29,14 @@ exports.signUp = async (req, res) => {
 };
 
 exports.login = async(req,res) => {
-  console.log(req.body);
 
-  await user.login(req.body.username, req.body.password);
-  
-  res.end();
+  const error = await user.login(req.body.username, req.body.password);
+
+  if(!error) {
+    const token = getToken(req.body.username);
+    res.json({ token });	
+  } else {
+  	res.json(error);
+  }
 };
 

@@ -47,7 +47,7 @@ module.exports.signUp = async (username, password, email) => {
   }
 };
 
-exports.login = async (username, password) => {
+module.exports.login = async (username, password) => {
   let users = await connection.queryAsync(`
 		SELECT * FROM Users
 		WHERE username = ?
@@ -57,8 +57,13 @@ exports.login = async (username, password) => {
 
   if(user) {
   	const compare = await bcrypt.compareAsync(password, user.password);
-  	console.log(compare);
+  	
+  	if(compare) {
+  		return false;
+  	}
+
+  	return { error: 'Invalid credentials' };
   } else {
-  	console.log('user does not exist');
+  	return { error: 'user does not exist' };
   }
 };
