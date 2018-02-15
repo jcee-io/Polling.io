@@ -1,5 +1,5 @@
 const Promise = require('bluebird');
-const db = Promise.promisifyAll(require('mysql'));
+const db = Promise.promisifyAll(require('mysql2'));
 const connectionSQL = require('../connectionSQL');
 
 const connection = db.createConnection(connectionSQL);
@@ -8,9 +8,9 @@ const connection = db.createConnection(connectionSQL);
 
 (async () => {
 	await connection.connect();
-	await connection.query('CREATE DATABASE IF NOT EXISTS App');
-	await connection.query('USE App');
-	await connection.query(
+	await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
+	await connection.queryAsync('USE App');
+	await connection.queryAsync(
 		`CREATE TABLE IF NOT EXISTS Users (
 			id INTEGER PRIMARY KEY AUTO_INCREMENT,
 			username VARCHAR(255) NOT NULL,
@@ -19,3 +19,16 @@ const connection = db.createConnection(connectionSQL);
 		 )`
 	);
 })();
+
+module.exports.signUp = async (username, password, email) => {
+  let users= await connection.queryAsync('SELECT ? FROM Users', username);
+  
+  if(!users[0]) {
+  	await connection.queryAsync(`
+  		INSERT INTO Users (username, password, email)
+  		VALUES(?, ?, ?)
+  	`, [username, password, email]);
+  } else {
+  	console.log('That user already exists');
+  }
+};
