@@ -15,6 +15,7 @@ if(process.env.NODE_ENV !== 'production') {
 }
 
 app.post('/signup', auth.signUp);
+app.post('/login', auth.login);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));

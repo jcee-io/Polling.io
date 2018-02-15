@@ -28,3 +28,11 @@ exports.signUp = async (req, res) => {
 
 };
 
+exports.login = async(req,res) => {
+  console.log(req.body);
+
+  await user.login(req.body.username, req.body.password);
+  
+  res.end();
+};
+

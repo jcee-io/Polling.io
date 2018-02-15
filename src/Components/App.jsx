@@ -7,15 +7,16 @@ const Header = () => (
     <Link to="/login">Login</Link>
 	</nav>
 );
-const Login = () => (
-  <div>
-    Username: <input />
-    Password: <input />
-  </div>
+const Login = props => (
+  <form onSubmit={props.handler}>
+    Username: <input name="username"/>
+    Password: <input type="password" name="password"/>
+    <button>Submit</button>
+  </form>
 );
 
 const SignUp = props => (
-  <form onSubmit={props.handler} id="signup">
+  <form onSubmit={props.handler}>
     Username: <input name="username"/>
     Password: <input type="password" name="password"/>
     Email: <input name="email"/>
@@ -35,8 +36,20 @@ class App extends Component {
     super();
 
     this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
+  async handleLogin(e) {
+    const form = e.target;
+    let { username, password, email } = form;
+
+    username = username.value;
+    password = password.value;
+
+  	e.preventDefault();
+
+  	const { data } = await axios.post('/login', { username, password });
+  }
   async handleSignUp(e) {
     const form = e.target;
     let { username, password, email } = form;
@@ -47,7 +60,7 @@ class App extends Component {
 
     e.preventDefault();
 
-    let { data } = await axios.post('/signup', { username, password, email })
+    const { data } = await axios.post('/signup', { username, password, email })
 
     console.log(data);
 
@@ -59,7 +72,7 @@ class App extends Component {
         <Header/>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/login" render={() => <Login />} />
+          <Route exact path="/login" render={() => <Login handler={this.handleLogin}/>} />
           <Route exact path="/signup" render={() => <SignUp handler={this.handleSignUp}/>} />
         </Switch>
       </div>
