@@ -21,14 +21,27 @@ const connection = db.createConnection(connectionSQL);
 })();
 
 module.exports.signUp = async (username, password, email) => {
-  let users= await connection.queryAsync('SELECT ? FROM Users', username);
+  let users = await connection.queryAsync(`
+		SELECT * FROM Users
+		WHERE username = ? OR email = ?
+  	`, [username, email]);
   
+  const user = users[0];
+
   if(!users[0]) {
   	await connection.queryAsync(`
   		INSERT INTO Users (username, password, email)
   		VALUES(?, ?, ?)
   	`, [username, password, email]);
+
+  	return false;
+  } 
+
+  console.log(users[0]);
+
+  if(user.username === username) {
+  	return { error: 'That username exists' };
   } else {
-  	console.log('That user already exists');
+  	return { error: 'That email exists' };
   }
 };

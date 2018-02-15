@@ -15,13 +15,16 @@ exports.signUp = async (req, res) => {
   const salt = await bcrypt.genSaltAsync(10);
   const password = await bcrypt.hashAsync(req.body.password, salt);
 
-  await user.signUp(username, password, email);
+  const userExists = await user.signUp(username, password, email, res);
 
-  const token = getToken(username);
+  console.log(userExists);
 
-  console.log('hello world');
-  console.log(token);
+  if(!userExists) {
+    const token = getToken(username);
+    res.json({ token });
+  } else {
+  	res.json(userExists)
+  }
 
-  res.json({ token });
 };
 
