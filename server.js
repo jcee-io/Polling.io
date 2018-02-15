@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const Promise = require('bluebird');
+const bcrypt = Promise.promisifyAll(require('bcrypt'));
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
@@ -24,10 +26,12 @@ if(process.env.NODE_ENV !== 'production') {
   }));  
 }
 
-app.post('/signup', (req, res) => {
-  console.log(req.body);
+app.post('/signup', async (req, res) => {
+  const { username, email } = req.body;
+  const salt = await bcrypt.genSaltAsync(10);
+  const password   = await bcrypt.hashAsync(req.body.password, salt);
 
-  res.json('OK');
+  res.json({ username, email, password });
 });
 
 app.get('*', (req, res) => {

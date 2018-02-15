@@ -46,10 +46,10 @@ class App extends Component {
     email = email.value;
 
     e.preventDefault();
-    
-    let response = await axios.post('/signup', { username, password, email })
 
-    console.log(response);
+    let { data } = await axios.post('/signup', { username, password, email })
+
+    console.log(data);
 
     
   }
