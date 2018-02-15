@@ -1,31 +1,70 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-
+import { Route, Switch, Link } from 'react-router-dom';
+import axios from 'axios';
+const Header = () => (
+	<nav>
+  	<Link to="/signup">Sign Up</Link>
+    <Link to="/login">Login</Link>
+	</nav>
+);
 const Login = () => (
-  <h1>
-    This is the login page!!!
-  </h1>
+  <div>
+    Username: <input />
+    Password: <input />
+  </div>
 );
 
-const SignUp = () => (
-  <h1>
-    This is the signup page!!!
-  </h1>
+const SignUp = props => (
+  <form onSubmit={props.handler} id="signup">
+    Username: <input name="username"/>
+    Password: <input type="password" name="password"/>
+    Email: <input name="email"/>
+    <button>Submit</button>
+  </form>
 );
 
 const Home = () => (
   <div>
-  	<button>Sign Up</button>
-    <button>Login</button>
+  	<Link className="btn btn-success" to="/signup">Sign Up</Link>
+    <Link className="btn btn-success" to="/login">Login</Link>
   </div>
 );
 
-const App = () => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-    <Route exact path="/login" component={Login} />
-    <Route exact path="/signup" component={SignUp} />
-  </Switch>
-);
+class App extends Component {
+  constructor() {
+    super();
+
+    this.handleSignUp = this.handleSignUp.bind(this);
+  }
+
+  async handleSignUp(e) {
+    const form = e.target;
+    let { username, password, email } = form;
+
+    username = username.value;
+    password = password.value;
+    email = email.value;
+
+    e.preventDefault();
+    
+    let response = await axios.post('/signup', { username, password, email })
+
+    console.log(response);
+
+    
+  }
+  render() {
+    return (
+      <div>
+        <Header/>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" render={() => <Login />} />
+          <Route exact path="/signup" render={() => <SignUp handler={this.handleSignUp}/>} />
+        </Switch>
+      </div>
+    );
+  }
+}
 
 export default App;
