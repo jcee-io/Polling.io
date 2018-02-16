@@ -1,27 +1,14 @@
 import React, { Component } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
+
+import SignUp from './SignUp';
+import Login from './Login';
 const Header = () => (
 	<nav>
   	<Link to="/signup">Sign Up</Link>
     <Link to="/login">Login</Link>
 	</nav>
-);
-const Login = props => (
-  <form onSubmit={props.handler}>
-    Username: <input name="username"/>
-    Password: <input type="password" name="password"/>
-    <button>Submit</button>
-  </form>
-);
-
-const SignUp = props => (
-  <form onSubmit={props.handler}>
-    Username: <input name="username"/>
-    Password: <input type="password" name="password"/>
-    Email: <input name="email"/>
-    <button>Submit</button>
-  </form>
 );
 
 const Home = () => (
@@ -37,6 +24,10 @@ class App extends Component {
 
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+
+    this.state = {
+    	authenticated: false
+    };
   }
 
   async handleLogin(e) {
@@ -49,8 +40,14 @@ class App extends Component {
   	e.preventDefault();
 
   	const { data } = await axios.post('/login', { username, password });
-  	console.log(data);
+
+  	if(data.token) {
+  		localStorage.setItem('token', data.token);
+  	}
+
+  	this.setState({ authenticated: true });
   }
+
   async handleSignUp(e) {
     const form = e.target;
     let { username, password, email } = form;
@@ -63,18 +60,31 @@ class App extends Component {
 
     const { data } = await axios.post('/signup', { username, password, email })
 
-    console.log(data);
+  	if(data.token) {
+  		localStorage.setItem('token', data.token);
+  	}
 
-    
+  	this.setState({ authenticated: true });
+ 
   }
   render() {
     return (
       <div>
         <Header/>
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" render={() => <Login handler={this.handleLogin}/>} />
-          <Route exact path="/signup" render={() => <SignUp handler={this.handleSignUp}/>} />
+          <Route exact path="/" render={() => <Home />} />
+          <Route exact path="/login" render={() => 
+          	<Login 
+          	  authenticated={this.state.authenticated}
+          	  handler={this.handleLogin}
+          	/>}
+          />
+          <Route exact path="/signup" render={() =>
+          	<SignUp 
+          	  authenticated={this.state.authenticated}
+          	  handler={this.handleSignUp}
+          	/>}
+          />
         </Switch>
       </div>
     );
