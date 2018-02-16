@@ -6,6 +6,7 @@ import SignUp from './SignUp';
 import Login from './Login';
 import Home from './Home';
 import Header from './Header';
+import Logout from './Logout';
 
 class App extends Component {
   constructor() {
@@ -24,6 +25,7 @@ class App extends Component {
       this.setState({ authenticated: true });
     }
   }
+  
   async handleLogin(e) {
     const form = e.target;
     let { username, password, email } = form;
@@ -64,6 +66,8 @@ class App extends Component {
   render() {
 
   	const { authenticated } = this.state;
+    const { handleLogin, handleSignUp } = this.props;
+
     return (
       <div>
         <Header authenticated={authenticated} />
@@ -79,6 +83,7 @@ class App extends Component {
           	  handler={this.handleLogin}
           	/>}
           />
+          <Route exact path="/logout" render={() => <Logout />} />
           <Route exact path="/signup" render={() =>
           	<SignUp 
           	  authenticated={authenticated}
