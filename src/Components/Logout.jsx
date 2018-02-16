@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
-export default () => (
-  <div>
-    <h1>Are you sure you want to Logout?</h1>
-    <button>Yes</button>
-    <button>No, take me back</button>
-  </div>
-);
+export default props => {
+  if(props.authenticated) {
+  	return <Logout {...props} />
+  }
+  
+  return <Redirect to="/" />
+};
 
 class Logout extends Component {
 	constructor(props) {

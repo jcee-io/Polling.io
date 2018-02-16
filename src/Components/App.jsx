@@ -14,7 +14,8 @@ class App extends Component {
 
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-
+    this.unauthenticate = this.unauthenticate.bind(this);
+    
     this.state = {
     	authenticated: false
     };
@@ -25,7 +26,24 @@ class App extends Component {
       this.setState({ authenticated: true });
     }
   }
-  
+
+  authenticate(err, token) {
+    if(err) {
+      console.log(err);
+    }
+
+    if(token) {
+      localStorage.setItem('token', token);
+      this.setState({ authenticated: true }); 
+    }
+  }
+
+  unauthenticate() {
+    if(this.state.authenticated) {
+      this.setState({ authenticated: false });
+      localStorage.removeItem('token');
+    }
+  }
   async handleLogin(e) {
     const form = e.target;
     let { username, password, email } = form;
@@ -37,11 +55,8 @@ class App extends Component {
 
   	const { data } = await axios.post('/login', { username, password });
 
-  	if(data.token) {
-  		localStorage.setItem('token', data.token);
-  	}
+    this.authenticate(data.error, data.token);
 
-  	this.setState({ authenticated: true });
   }
 
   async handleSignUp(e) {
@@ -56,12 +71,7 @@ class App extends Component {
 
     const { data } = await axios.post('/signup', { username, password, email })
 
-  	if(data.token) {
-  		localStorage.setItem('token', data.token);
-  	}
-
-  	this.setState({ authenticated: true });
- 
+  	this.authenticate(data.error, data.token);
   }
   render() {
 
