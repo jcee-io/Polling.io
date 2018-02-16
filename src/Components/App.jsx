@@ -4,19 +4,8 @@ import axios from 'axios';
 
 import SignUp from './SignUp';
 import Login from './Login';
-const Header = () => (
-	<nav>
-  	<Link to="/signup">Sign Up</Link>
-    <Link to="/login">Login</Link>
-	</nav>
-);
-
-const Home = () => (
-  <div>
-  	<Link className="btn btn-success" to="/signup">Sign Up</Link>
-    <Link className="btn btn-success" to="/login">Login</Link>
-  </div>
-);
+import Home from './Home';
+import Header from './Header';
 
 class App extends Component {
   constructor() {
@@ -30,6 +19,11 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    if(localStorage.getItem('token')) {
+      this.setState({ authenticated: true });
+    }
+  }
   async handleLogin(e) {
     const form = e.target;
     let { username, password, email } = form;
@@ -68,20 +62,26 @@ class App extends Component {
  
   }
   render() {
+
+  	const { authenticated } = this.state;
     return (
       <div>
-        <Header/>
+        <Header authenticated={authenticated} />
         <Switch>
-          <Route exact path="/" render={() => <Home />} />
+          <Route exact path="/" render={() => 
+          	<Home 
+          	  authenticated={authenticated}
+          	/>}
+          />
           <Route exact path="/login" render={() => 
           	<Login 
-          	  authenticated={this.state.authenticated}
+          	  authenticated={authenticated}
           	  handler={this.handleLogin}
           	/>}
           />
           <Route exact path="/signup" render={() =>
           	<SignUp 
-          	  authenticated={this.state.authenticated}
+          	  authenticated={authenticated}
           	  handler={this.handleSignUp}
           	/>}
           />
