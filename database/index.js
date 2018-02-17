@@ -47,6 +47,23 @@ module.exports.signUp = async (username, password, email) => {
   }
 };
 
+
+module.exports.findOne = async (username, callback) => {
+	try {
+	  let users = await connection.queryAsync(`
+		SELECT * FROM Users
+		WHERE username = ?
+		`, username);
+
+		callback(null, users[0]);
+	} catch(err) {
+		callback(err, null);
+	}
+};
+
+module.exports.verifyPassword = async password => {
+  return await bcrypt.compareAsync(password, user.password);
+};
 module.exports.login = async (username, password) => {
   let users = await connection.queryAsync(`
 		SELECT * FROM Users
@@ -54,6 +71,8 @@ module.exports.login = async (username, password) => {
   	`, username);
   
   const user = users[0]; 
+
+  console.log(user);
 
   if(user) {
   	const compare = await bcrypt.compareAsync(password, user.password);

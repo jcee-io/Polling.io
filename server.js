@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const auth = require('./auth-backend/auth');
 const webpackDevMiddleware = require('./webpack.dev');
 const app = express();
@@ -9,6 +8,7 @@ const path = require('path');
 app.use(express.static(__dirname + '/dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 if(process.env.NODE_ENV !== 'production') {
   app.use(webpackDevMiddleware);  
