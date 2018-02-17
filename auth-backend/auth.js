@@ -3,6 +3,7 @@ const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
 const secretKey = require('../config');
 const user = require('../database/index');
+const cache = require('./redis');
 
 const getToken = username => {
   return new Promise((resolve, reject) => {
@@ -28,6 +29,10 @@ exports.signUp = async (req, res) => {
 
   if(!userExists) {
     const token = await getToken(username);
+
+
+    await cache.setAsync('token', token);
+
     res.json({ token });
   } else {
   	res.json(userExists)
@@ -41,6 +46,7 @@ exports.login = async(req,res) => {
 
   if(!error) {
     const token = await getToken(req.body.username);
+    await cache.setAsync('token', token);
     res.json({ token });	
   } else {
   	res.json(error);

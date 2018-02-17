@@ -24,12 +24,11 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.1",
-    "jwt-simple": "^0.5.1",
-    "mysql": "^2.15.0",
     "mysql2": "^1.5.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
+    "redis": "^2.8.0",
     "webpack": "^3.10.0",
     "webpack-dev-middleware": "^2.0.3"
   },
