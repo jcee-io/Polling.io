@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 export default props => {
+	console.log(props);
   if(props.authenticated) {
-  	return <Logout {...props} />
+  	return <Logout unauthenticate={props.unauthenticate} />
   }
   
   return <Redirect to="/" />
@@ -15,12 +16,13 @@ class Logout extends Component {
 	}
 
 	componentDidMount() {
+		console.log(this.props);
 		this.props.unauthenticate();
 	}
 
 	render() {
 		return(
-			<Redirect to="/" />
+			<h1>You have logged out</h1>
 		);
 	}
 }

@@ -74,7 +74,7 @@ class App extends Component {
   render() {
 
   	const { authenticated } = this.state;
-    const { handleLogin, handleSignUp, unauthenticate } = this.props;
+    const { handleLogin, handleSignUp } = this;
 
     return (
       <div>
@@ -94,7 +94,7 @@ class App extends Component {
           <Route exact path="/logout" render={() => 
             <Logout 
               authenticated={authenticated}
-              unauthenticate={unauthenticate}
+              unauthenticate={this.unauthenticate}
             />}
           />
           <Route exact path="/signup" render={() =>
