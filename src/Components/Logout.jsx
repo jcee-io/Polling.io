@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 export default props => {
-	console.log(props);
-  if(props.authenticated) {
-  	return <Logout unauthenticate={props.unauthenticate} />
-  }
-  
-  return <Redirect to="/" />
+  return <Logout unauthenticate={props.unauthenticate} />
 };
 
 class Logout extends Component {
@@ -15,8 +11,10 @@ class Logout extends Component {
 	  super(props);
 	}
 
-	componentDidMount() {
-		console.log(this.props);
+	async componentDidMount() {
+		const token = localStorage.getItem('token');
+		console.log(token);
+		await axios.post('/logout', { token });
 		this.props.unauthenticate();
 	}
 

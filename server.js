@@ -35,6 +35,11 @@ app.get('/favicon.ico', (req, res) => {
 });
 app.post('/signup', auth.signUp);
 app.post('/login', auth.login);
+
+app.post('/logout', (req,res) => {
+  cache.del('token');
+  res.redirect('/');
+});
 app.get('/secret', requireAuthGET, (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
@@ -53,5 +58,6 @@ const server = app.listen(3000, function() {
 
 
 const requireAuthPOST = (req, res, next) => {
-
+  console.log(req.body);
+  next();
 };
