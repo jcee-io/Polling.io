@@ -15,7 +15,7 @@ class App extends Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.unauthenticate = this.unauthenticate.bind(this);
-    
+
     this.state = {
     	authenticated: false
     };
@@ -39,10 +39,8 @@ class App extends Component {
   }
 
   unauthenticate() {
-    if(this.state.authenticated) {
-      this.setState({ authenticated: false });
-      localStorage.removeItem('token');
-    }
+    this.setState({ authenticated: false });
+    localStorage.removeItem('token'); 
   }
   async handleLogin(e) {
     const form = e.target;
@@ -76,7 +74,7 @@ class App extends Component {
   render() {
 
   	const { authenticated } = this.state;
-    const { handleLogin, handleSignUp } = this.props;
+    const { handleLogin, handleSignUp, unauthenticate } = this.props;
 
     return (
       <div>
@@ -93,7 +91,12 @@ class App extends Component {
           	  handler={this.handleLogin}
           	/>}
           />
-          <Route exact path="/logout" render={() => <Logout />} />
+          <Route exact path="/logout" render={() => 
+            <Logout 
+              authenticated={authenticated}
+              unauthenticate={unauthenticate}
+            />}
+          />
           <Route exact path="/signup" render={() =>
           	<SignUp 
           	  authenticated={authenticated}

@@ -14,13 +14,13 @@ class Logout extends Component {
 	  super(props);
 	}
 
-	componentWillUnmount() {
-		localStorage.removeItem('token');
+	componentDidMount() {
+		this.props.unauthenticate();
 	}
 
 	render() {
 		return(
-			<h1> You have logged out </h1>
+			<Redirect to="/" />
 		);
 	}
 }
