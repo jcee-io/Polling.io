@@ -18,7 +18,7 @@ if(process.env.NODE_ENV !== 'production') {
 const requireAuthGET = async (req,res,next) => {
   const token = await cache.getAsync('token');
 
-  console.log(req, token);
+  console.log(token);
 
   if(!token) {
   	res.redirect('/login');
@@ -27,7 +27,17 @@ const requireAuthGET = async (req,res,next) => {
   }
 };
 
+const requireNoAuthGET = async (req, res, next) => {
+  const token = await cache.getAsync('token');
 
+  if(token) {
+  	res.redirect('/');
+  } else {
+  	next();
+  }
+};
+
+const next = (req,res,next) => next();
 
 
 app.get('/favicon.ico', (req, res) => {
@@ -38,11 +48,14 @@ app.post('/login', auth.login);
 
 app.post('/logout', (req,res) => {
   cache.del('token');
-  res.redirect('/');
+  res.sendStatus(200);
 });
-app.get('/secret', requireAuthGET, (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'dist/index.html'));
-});
+
+app.get('/secret', requireAuthGET, next);
+app.get('/logout', requireAuthGET, next);
+app.get('/login', requireNoAuthGET, next);
+app.get('/signup', requireNoAuthGET, next);
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));

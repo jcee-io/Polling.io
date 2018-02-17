@@ -14,8 +14,8 @@ class Logout extends Component {
 	async componentDidMount() {
 		const token = localStorage.getItem('token');
 		console.log(token);
+		await this.props.unauthenticate();
 		await axios.post('/logout', { token });
-		this.props.unauthenticate();
 	}
 
 	render() {
