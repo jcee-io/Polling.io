@@ -7,6 +7,7 @@ import Login from './Login';
 import Home from './Home';
 import Header from './Header';
 import Logout from './Logout';
+import Secret from './Secret';
 
 class App extends Component {
   constructor() {
@@ -19,6 +20,8 @@ class App extends Component {
     this.state = {
     	authenticated: false
     };
+
+    console.log(localStorage);
   }
 
   componentDidMount() {
@@ -80,6 +83,7 @@ class App extends Component {
       <div>
         <Header authenticated={authenticated} />
         <Switch>
+          <Route exact path="/secret" render={() => <Secret />} />
           <Route exact path="/" render={() => 
           	<Home 
           	  authenticated={authenticated}
