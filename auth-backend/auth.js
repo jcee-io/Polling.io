@@ -1,12 +1,19 @@
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
 const secretKey = require('../config');
 const user = require('../database/index');
 
 const getToken = username => {
-  const timestamp = new Date().getTime();
-  return jwt.encode({ sub: username, iat: timestamp }, secretKey);
+  return new Promise((resolve, reject) => {
+  	jwt.sign({ username }, secretKey, (err, token) => {
+  		if(err) {
+  			reject(err);
+  		} else {
+  			resolve(token);
+  		}
+  	});
+  });
 };
 
 
@@ -20,7 +27,7 @@ exports.signUp = async (req, res) => {
   console.log(userExists);
 
   if(!userExists) {
-    const token = getToken(username);
+    const token = await getToken(username);
     res.json({ token });
   } else {
   	res.json(userExists)
@@ -33,7 +40,7 @@ exports.login = async(req,res) => {
   const error = await user.login(req.body.username, req.body.password);
 
   if(!error) {
-    const token = getToken(req.body.username);
+    const token = await getToken(req.body.username);
     res.json({ token });	
   } else {
   	res.json(error);
