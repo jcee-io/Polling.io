@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import App from './Components/App';
 import { BrowserRouter } from 'react-router-dom';
 
-require('babel-polyfill');
 
 const Main = () => (
 	<div>

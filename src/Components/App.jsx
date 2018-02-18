@@ -8,8 +8,6 @@ import Header from './Header';
 import Logout from './Logout';
 import Secret from './Secret';
 
-require('babel-polyfill');
-
 class App extends Component {
   constructor() {
     super();
