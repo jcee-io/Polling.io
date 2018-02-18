@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const auth = require('./auth-backend/auth');
-const webpackDevMiddleware = require('./webpack.dev');
+
 const app = express();
 const path = require('path');
 const cache = require('./auth-backend/redis');
@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('cors')());
 
 if(process.env.NODE_ENV !== 'production') {
+	const webpackDevMiddleware = require('./webpack.dev');
   app.use(webpackDevMiddleware);  
   require('dotenv').config();
 }
