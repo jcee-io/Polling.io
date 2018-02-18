@@ -98,5 +98,3 @@ module.exports.login = async (username, password) => {
   }
 };
 
-
-connection.close();
