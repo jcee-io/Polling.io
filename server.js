@@ -39,15 +39,11 @@ const requireNoAuthGET = async (req, res, next) => {
 
 const next = (req,res,next) => next();
 
-
-app.get('/favicon.ico', (req, res) => {
-	res.end();
-});
 app.post('/signup', auth.signUp);
 app.post('/login', auth.login);
 
 app.post('/logout', (req,res) => {
-  cache.del('token');
+  cache.del(req.body.token);
   res.sendStatus(200);
 });
 

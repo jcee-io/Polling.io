@@ -37,7 +37,7 @@ exports.signUp = async (req, res) => {
     const token = await getToken(username);
 
 
-    await cache.setAsync('token', token);
+    await cache.setAsync(token, true);
 
     res.json({ token });
   } else {
@@ -53,7 +53,7 @@ exports.login = async(req,res) => {
   if(!error) {
     const token = await getToken(req.body.username);
     console.log(token);
-    await cache.setAsync('token', token);
+    await cache.setAsync(token, true);
     res.json({ token });	
   } else {
   	res.json(error);
