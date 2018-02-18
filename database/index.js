@@ -2,16 +2,21 @@ const Promise = require('bluebird');
 const db = Promise.promisifyAll(require('mysql2'));
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
 
+if(process.env.NODE_ENV !== "production") {
+	require('dotenv').config();
+}
 
-const connection = db.createConnection(process.env.CLEARDB_DATABASE_URL || require('../connectionSQL'));
+const connection = db.createConnection(process.env.MARIADB_URL || require('../connectionSQL'));
 
 
 
 (async () => {
 	await connection.connect();
 
+	
 	await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
 	await connection.queryAsync('USE App');
+	
 
 	await connection.queryAsync(
 		`CREATE TABLE IF NOT EXISTS Users (
@@ -21,13 +26,9 @@ const connection = db.createConnection(process.env.CLEARDB_DATABASE_URL || requi
 			email VARCHAR(255)
 		 )`
 	);
-
-	await connection.close();
 })();
 
 module.exports.signUp = async (username, password, email) => {
-	await connection.connect();
-
   let users = await connection.queryAsync(`
 		SELECT * FROM Users
 		WHERE username = ? OR email = ?
@@ -40,11 +41,9 @@ module.exports.signUp = async (username, password, email) => {
   		INSERT INTO Users (username, password, email)
   		VALUES(?, ?, ?)
   	`, [username, password, email]);
-    await connection.close();
+
   	return false;
   } 
-
-  await connection.close();
 
   console.log(users[0]);
 
@@ -53,14 +52,10 @@ module.exports.signUp = async (username, password, email) => {
   } else {
   	return { error: 'That email exists' };
   }
-
-  
 };
 
 
 module.exports.findOne = async (username, callback) => {
-	await connection.connect();
-
 	try {
 	  let users = await connection.queryAsync(`
 		SELECT * FROM Users
@@ -71,24 +66,17 @@ module.exports.findOne = async (username, callback) => {
 	} catch(err) {
 		callback(err, null);
 	}
-
-	await connection.close();
 };
 
 module.exports.verifyPassword = async password => {
   return await bcrypt.compareAsync(password, user.password);
 };
 module.exports.login = async (username, password) => {
-	await connection.connect();
-
   let users = await connection.queryAsync(`
 		SELECT * FROM Users
 		WHERE username = ?
   	`, username);
   
-
-  await connection.close();
-
   const user = users[0]; 
 
   console.log(user);
@@ -105,4 +93,3 @@ module.exports.login = async (username, password) => {
   	return { error: 'user does not exist' };
   }
 };
-
