@@ -1,9 +1,9 @@
-My Project
+JWT Authentication Boilerplate (React) w/ MySQL
 ---
  
-Welcome.
- 
- 
+This boilerplate utilizes a JWT (JSON Web Token) as a form of authentication. Though it's perfect in a development environment, MySQL is unstable at a production level (at least in Heroku).
+
+Tech Stack: MySQL, Redis, Node, Express, React, React-Router, JSONWebToken
  
 Usage
 ---
@@ -29,5 +29,5 @@ Compile
 ---
  
 ```
-npm run compile
+webpack (this is for production build)
 ```
