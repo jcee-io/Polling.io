@@ -8,11 +8,12 @@ if(process.env.NODE_ENV !== "production") {
 
 const connection = db.createConnection(process.env.MARIADB_URL || require('../connectionSQL'));
 
-
+console.log(process.env.MARIADB_URL);
 
 (async () => {
 	await connection.connect();
 
+	console.log(connection);
 	
 	await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
 	await connection.queryAsync('USE App');
