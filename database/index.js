@@ -12,8 +12,6 @@ console.log(process.env.MARIADB_URL);
 
 (async () => {
 	await connection.connect();
-
-	console.log(connection);
 	
 	await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
 	await connection.queryAsync('USE App');
