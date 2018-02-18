@@ -17,12 +17,8 @@ if(process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-console.log(process.env.SECRET_KEY);
-
 const requireAuthGET = async (req,res,next) => {
   const token = await cache.getAsync('token');
-
-  console.log(token);
 
   if(!token) {
   	res.redirect('/login');
@@ -71,9 +67,6 @@ app.get('*', (req, res) => {
 });
  
 const server = app.listen(process.env.PORT || 3000, function() {
-  const host = server.address().address;
-  const port = server.address().port;
-  console.log(`Example app listening at http://${host}:${port}`);
 });
 
 const requireAuthPOST = (req, res, next) => {
