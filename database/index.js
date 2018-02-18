@@ -21,9 +21,13 @@ const connection = db.createConnection(process.env.CLEARDB_DATABASE_URL || requi
 			email VARCHAR(255)
 		 )`
 	);
+
+	await connection.close();
 })();
 
 module.exports.signUp = async (username, password, email) => {
+	await connection.connect();
+
   let users = await connection.queryAsync(`
 		SELECT * FROM Users
 		WHERE username = ? OR email = ?
@@ -36,9 +40,11 @@ module.exports.signUp = async (username, password, email) => {
   		INSERT INTO Users (username, password, email)
   		VALUES(?, ?, ?)
   	`, [username, password, email]);
-
+    await connection.close();
   	return false;
   } 
+
+  await connection.close();
 
   console.log(users[0]);
 
@@ -48,11 +54,13 @@ module.exports.signUp = async (username, password, email) => {
   	return { error: 'That email exists' };
   }
 
-  connection.close();
+  
 };
 
 
 module.exports.findOne = async (username, callback) => {
+	await connection.connect();
+
 	try {
 	  let users = await connection.queryAsync(`
 		SELECT * FROM Users
@@ -64,22 +72,22 @@ module.exports.findOne = async (username, callback) => {
 		callback(err, null);
 	}
 
-	connection.close();
+	await connection.close();
 };
 
 module.exports.verifyPassword = async password => {
-	connection.close();
-
   return await bcrypt.compareAsync(password, user.password);
 };
 module.exports.login = async (username, password) => {
+	await connection.connect();
+
   let users = await connection.queryAsync(`
 		SELECT * FROM Users
 		WHERE username = ?
   	`, username);
   
 
-  connection.close();
+  await connection.close();
 
   const user = users[0]; 
 
