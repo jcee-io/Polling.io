@@ -80,7 +80,7 @@ module.exports.login = async (username, password) => {
   
 
   connection.close();
-  
+
   const user = users[0]; 
 
   console.log(user);
@@ -97,3 +97,6 @@ module.exports.login = async (username, password) => {
   	return { error: 'user does not exist' };
   }
 };
+
+
+connection.close();
