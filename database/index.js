@@ -3,15 +3,18 @@ const db = Promise.promisifyAll(require('mysql2'));
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
 
 
-
-const connection = db.createConnection(process.env.CLEARDB_DATABASE_URL || require('../connectionSQL'));
+const connection = db.createConnection('mysql://ba083be857cc72:5dc11035@us-cdbr-iron-east-05.cleardb.net/heroku_3be80abb0d83f50?reconnect=true');
 
 
 
 (async () => {
 	await connection.connect();
-	await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
-	await connection.queryAsync('USE App');
+	
+	if(process.env.NODE_ENV !== production) {
+		await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
+		await connection.queryAsync('USE App');	
+	}
+
 	await connection.queryAsync(
 		`CREATE TABLE IF NOT EXISTS Users (
 			id INTEGER PRIMARY KEY AUTO_INCREMENT,
