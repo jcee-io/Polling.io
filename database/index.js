@@ -47,6 +47,8 @@ module.exports.signUp = async (username, password, email) => {
   } else {
   	return { error: 'That email exists' };
   }
+
+  connection.close();
 };
 
 
@@ -61,9 +63,13 @@ module.exports.findOne = async (username, callback) => {
 	} catch(err) {
 		callback(err, null);
 	}
+
+	connection.close();
 };
 
 module.exports.verifyPassword = async password => {
+	connection.close();
+
   return await bcrypt.compareAsync(password, user.password);
 };
 module.exports.login = async (username, password) => {
@@ -71,6 +77,9 @@ module.exports.login = async (username, password) => {
 		SELECT * FROM Users
 		WHERE username = ?
   	`, username);
+  
+
+  connection.close();
   
   const user = users[0]; 
 
