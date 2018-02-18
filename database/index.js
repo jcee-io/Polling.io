@@ -1,9 +1,15 @@
 const Promise = require('bluebird');
 const db = Promise.promisifyAll(require('mysql2'));
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
-const connectionSQL = require('../connectionSQL');
 
-const connection = db.createConnection(process.env.CLEARDB_DATABASE_URL || connectionSQL);
+
+if(process.env.NODE_ENV !== 'production') {
+	const connect = require('../connectionSQL');
+} else {
+	const connect = process.env.CLEARDB_DATABASE_URL;
+}
+
+const connection = db.createConnection(connect);
 
 
 
