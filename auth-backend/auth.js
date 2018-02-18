@@ -1,9 +1,15 @@
 const jwt = require('jsonwebtoken');
 const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
-const secretKey = require('../config');
+
 const user = require('../database/index');
 const cache = require('./redis');
+
+if(process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+
+const secretKey = process.env.SECRET_KEY;
 
 const getToken = username => {
   return new Promise((resolve, reject) => {
@@ -46,6 +52,7 @@ exports.login = async(req,res) => {
 
   if(!error) {
     const token = await getToken(req.body.username);
+    console.log(token);
     await cache.setAsync('token', token);
     res.json({ token });	
   } else {

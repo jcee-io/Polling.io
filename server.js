@@ -13,7 +13,10 @@ app.use(require('cors')());
 
 if(process.env.NODE_ENV !== 'production') {
   app.use(webpackDevMiddleware);  
+  require('dotenv').config();
 }
+
+console.log(process.env.SECRET_KEY);
 
 const requireAuthGET = async (req,res,next) => {
   const token = await cache.getAsync('token');
@@ -51,8 +54,13 @@ app.post('/logout', (req,res) => {
   res.sendStatus(200);
 });
 
+
+// cannot access these pages unless logged in
 app.get('/secret', requireAuthGET, next);
 app.get('/logout', requireAuthGET, next);
+
+
+// must be logged out to access these pages
 app.get('/login', requireNoAuthGET, next);
 app.get('/signup', requireNoAuthGET, next);
 
@@ -66,9 +74,6 @@ const server = app.listen(3000, function() {
   const port = server.address().port;
   console.log(`Example app listening at http://${host}:${port}`);
 });
-
-
-
 
 const requireAuthPOST = (req, res, next) => {
   console.log(req.body);
