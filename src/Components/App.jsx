@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
-
 import SignUp from './SignUp';
 import Login from './Login';
 import Home from './Home';
 import Header from './Header';
 import Logout from './Logout';
 import Secret from './Secret';
+
+require('babel-polyfill');
 
 class App extends Component {
   constructor() {
