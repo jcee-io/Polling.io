@@ -3,7 +3,7 @@ const db = Promise.promisifyAll(require('mysql2'));
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
 const connectionSQL = require('../connectionSQL');
 
-const connection = db.createConnection(connectionSQL);
+const connection = db.createConnection(process.env.CLEARDB_DATABASE_URL || connectionSQL);
 
 
 
