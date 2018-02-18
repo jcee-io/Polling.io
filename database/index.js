@@ -5,11 +5,9 @@ const bcrypt = Promise.promisifyAll(require('bcrypt'));
 
 if(process.env.NODE_ENV !== 'production') {
 	const connect = require('../connectionSQL');
-} else {
-	const connect = process.env.CLEARDB_DATABASE_URL;
-}
+} 
 
-const connection = db.createConnection(connect);
+const connection = db.createConnection(process.env.CLEARDB_DATABASE_URL || connect);
 
 
 
