@@ -10,10 +10,10 @@ const connection = db.createConnection(process.env.CLEARDB_DATABASE_URL || requi
 (async () => {
 	await connection.connect();
 
-	if(process.env.NODE_ENV !== 'production') {
+	
 		await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
 		await connection.queryAsync('USE App');
-	}
+	
 
 	await connection.queryAsync(
 		`CREATE TABLE IF NOT EXISTS Users (
