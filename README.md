@@ -1,4 +1,4 @@
-JWT Authentication Boilerplate (React) w/ MySQL
+JWT Authentication Boilerplate (React) w/ MariaDB
 ---
 
 LIVE LINK: https://frozen-depths-11875.herokuapp.com/
