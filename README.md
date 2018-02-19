@@ -1,13 +1,13 @@
-JWT Authentication Boilerplate (React) w/ MariaDB
+Polling.io - An Application to Further Discussion
 ---
 
-LIVE LINK: https://frozen-depths-11875.herokuapp.com/
+LIVE LINK: TBA
 
-This boilerplate utilizes a JWT (JSON Web Token) as a form of authentication. Though it's perfect in a development environment, This boilerplate is deployed on heroku and uses the free Redis plan in Heroku for caching the token, and the MariaDB plan for Amazon RDS.
+This application uses the React-Auth (Token-based) boilerplate I've created as the initial commit. Here is the link:
+https://github.com/jcruzz/react-router-auth-boilerplate-sql
+
 
 Tech Stack: MariaDB, Redis, Node, Express, React, React-Router, JSONWebToken
- 
-Despite the minimum appearance, this is a vitable suite for boilerplate. Future plans include implementing minor CSS to allow ease of looking at the live front-end.
 
 Usage
 ---

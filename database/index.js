@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 const db = Promise.promisifyAll(require('mysql2'));
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
+const schemaConstructor = require('./schema');
 
 if(process.env.NODE_ENV !== "production") {
 	require('dotenv').config();
@@ -8,24 +9,7 @@ if(process.env.NODE_ENV !== "production") {
 
 const connection = db.createConnection(process.env.MARIADB_URL || require('../connectionSQL'));
 
-console.log(process.env.MARIADB_URL);
-
-(async () => {
-	await connection.connect();
-	
-	await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
-	await connection.queryAsync('USE App');
-	
-
-	await connection.queryAsync(
-		`CREATE TABLE IF NOT EXISTS Users (
-			id INTEGER PRIMARY KEY AUTO_INCREMENT,
-			username VARCHAR(255) NOT NULL,
-			password VARCHAR(255) NOT NULL,
-			email VARCHAR(255)
-		 )`
-	);
-})();
+schemaConstructor(connection);
 
 module.exports.signUp = async (username, password, email) => {
   let users = await connection.queryAsync(`
