@@ -17,8 +17,7 @@ class App extends Component {
     this.unauthenticate = this.unauthenticate.bind(this);
 
     this.state = {
-    	authenticated: false,
-      secretView: 'create'
+    	authenticated: false
     };
 
     console.log(localStorage);

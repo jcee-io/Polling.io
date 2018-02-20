@@ -1,5 +1,10 @@
 module.exports = async connection => {
-	await connection.connect();
+  try {
+   await connection.connect(); 
+  } catch (err) {
+    console.log(err);
+  }
+	
 	
 	await connection.queryAsync('CREATE DATABASE IF NOT EXISTS Polling');
 	await connection.queryAsync('USE Polling');

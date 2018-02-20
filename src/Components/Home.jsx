@@ -3,7 +3,7 @@ import Secret from './Secret';
 import { Link } from 'react-router-dom';
 export default props => {
 	if(props.authenticated) {
-		return (<Secret view={props.secretView}/>);
+		return (<Secret view={props.secretView} />);
 	}
 
 	return (<Home />);
