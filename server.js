@@ -49,7 +49,6 @@ app.post('/logout', (req,res) => {
 
 
 // cannot access these pages unless logged in
-app.get('/secret', requireAuthGET, next);
 app.get('/logout', requireAuthGET, next);
 
 

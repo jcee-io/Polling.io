@@ -17,7 +17,8 @@ class App extends Component {
     this.unauthenticate = this.unauthenticate.bind(this);
 
     this.state = {
-    	authenticated: false
+    	authenticated: false,
+      secretView: 'create'
     };
 
     console.log(localStorage);
@@ -75,18 +76,17 @@ class App extends Component {
   }
   render() {
 
-  	const { authenticated } = this.state;
+  	const { authenticated, secretView } = this.state;
     const { handleLogin, handleSignUp } = this;
 
     return (
       <div>
         <Header authenticated={authenticated} />
         <Switch>
-          <Route exact path="/secret" render={() => <Secret />} />
           <Route exact path="/" render={() => 
           	<Home 
-          	  authenticated={authenticated}
-          	/>}
+              {...this.state} 
+            />}
           />
           <Route exact path="/login" render={() => 
           	<Login 
