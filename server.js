@@ -56,7 +56,12 @@ app.get('/logout', requireAuthGET, next);
 app.get('/login', requireNoAuthGET, next);
 app.get('/signup', requireNoAuthGET, next);
 
+// create poll
 
+app.post('/create', (req, res) => {
+  console.log(req.body);
+  res.end();
+});
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
@@ -68,6 +73,6 @@ const server = app.listen(process.env.PORT || 3000, function(err) {
 });
 
 const requireAuthPOST = (req, res, next) => {
-  console.log(req.body);
+  
   next();
 };

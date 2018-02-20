@@ -37,4 +37,6 @@ module.exports = async connection => {
       FOREIGN KEY(poll_id) REFERENCES Poll(id)
     )`
   );
+
+  connection.end();
 }
