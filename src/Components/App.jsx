@@ -29,8 +29,8 @@ class App extends Component {
     const token = localStorage.getItem('token');
     if(token) {
       this.setState({ authenticated: true });
-
-      console.log(JWTDecode(token));
+      const { username } = JWTDecode(token);
+      localStorage.setItem('username', username);
     }
   }
 
@@ -48,6 +48,7 @@ class App extends Component {
   unauthenticate() {
     this.setState({ authenticated: false });
     localStorage.removeItem('token'); 
+    localStorage.removeItem('username');
   }
   async handleLogin(e) {
     const form = e.target;

@@ -40,6 +40,7 @@ class Secret extends Component {
 	handleCreate(e) {
 		const form = e.target;
 		const title = form.title.value;
+		const token = localStorage.getItem('token');
 		const choices = {};
 
 
@@ -54,7 +55,7 @@ class Secret extends Component {
 		
 		e.preventDefault();
 		e.stopPropagation();
-		axios.post('/create', { title, choices })
+		axios.post('/create', { title, choices, token })
 		  .then(({data}) => console.log(data));
 	}
 	render() {

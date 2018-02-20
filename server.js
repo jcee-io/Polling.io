@@ -27,8 +27,18 @@ const requireAuthGET = async (req,res,next) => {
   }
 };
 
+const requireAuthPOST = async (req, res, next) => {
+  const token = await cache.getAsync(req.body.token);
+  if(token) {
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+};
+
 const requireNoAuthGET = async (req, res, next) => {
   const token = await cache.getAsync('token');
+
 
   if(token) {
   	res.redirect('/');
@@ -58,7 +68,7 @@ app.get('/signup', requireNoAuthGET, next);
 
 // create poll
 
-app.post('/create', (req, res) => {
+app.post('/create', requireAuthPOST, (req, res) => {
   console.log(req.body);
   res.end();
 });
@@ -72,7 +82,3 @@ const server = app.listen(process.env.PORT || 3000, function(err) {
   }
 });
 
-const requireAuthPOST = (req, res, next) => {
-  
-  next();
-};
