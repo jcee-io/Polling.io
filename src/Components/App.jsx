@@ -7,6 +7,7 @@ import Home from './Home';
 import Header from './Header';
 import Logout from './Logout';
 import Secret from './Secret';
+import JWTDecode from 'jwt-decode';
 
 class App extends Component {
   constructor() {
@@ -17,15 +18,19 @@ class App extends Component {
     this.unauthenticate = this.unauthenticate.bind(this);
 
     this.state = {
-    	authenticated: false
+    	authenticated: false,
+      username: null
     };
 
     console.log(localStorage);
   }
 
   componentDidMount() {
-    if(localStorage.getItem('token')) {
+    const token = localStorage.getItem('token');
+    if(token) {
       this.setState({ authenticated: true });
+
+      console.log(JWTDecode(token));
     }
   }
 
