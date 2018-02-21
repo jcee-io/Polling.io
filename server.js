@@ -5,6 +5,7 @@ const auth = require('./auth-backend/auth');
 const app = express();
 const path = require('path');
 const cache = require('./auth-backend/redis');
+const db = require('./database/index');
 
 app.use(express.static(__dirname + '/dist'));
 app.use(bodyParser.json());
@@ -68,9 +69,14 @@ app.get('/signup', requireNoAuthGET, next);
 
 // create poll
 
-app.post('/create', requireAuthPOST, (req, res) => {
-  console.log(req.body);
-  res.end();
+app.post('/create', requireAuthPOST, async (req, res) => {
+  const { username, title, choices } = req.body;
+  const choicesArr = Object.keys(choices).map(index => choices[index]);
+
+  console.log(choicesArr);
+  
+  await db.createPoll(username, title, choicesArr);
+  res.sendStatus(200);
 });
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));

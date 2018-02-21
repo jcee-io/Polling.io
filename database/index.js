@@ -87,20 +87,20 @@ module.exports.login = async (username, password) => {
 
 
 module.exports.createPoll = async (username, title, choices) => {
-  await connection.queryAsync(`
+  console.log(choices);
+
+  const { insertId } = await connection.queryAsync(`
     INSERT INTO Poll (name, user_id)
-    VALUES(?, 
-      SELECT id FROM Users
-      WHERE username = ?
-    )
+    VALUES(?, (SELECT id FROM Users WHERE username = ?))
   `, [title, username]);
 
   await Promise.all(choices.map(choice => {
-    return connection.queryASync(`
+    return connection.queryAsync(`
       INSERT INTO PollOptions (name, votes, poll_id)
-      VALUES(?, 0, SELECT id FROM Users WHERE name = ?)
-    `, [choice, title]);
+      VALUES(?, 0, (SELECT id FROM Poll WHERE id = ?))
+    `, [choice, insertId]);
   }));
 
+  console.log('hello world');
   connection.end();
 };

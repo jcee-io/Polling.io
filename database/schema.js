@@ -38,5 +38,4 @@ module.exports = async connection => {
     )`
   );
 
-  connection.end();
 }
