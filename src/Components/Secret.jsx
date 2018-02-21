@@ -10,7 +10,8 @@ class Secret extends Component {
 		this.state = {
 			view: 'create',
 			choices: [<input name="choice[0]" />, <br />],
-			choiceIndex: 0
+			choiceIndex: 0,
+			polls: []
 		}
 
 		this.viewCreate = this.viewCreate.bind(this);
@@ -19,6 +20,16 @@ class Secret extends Component {
 		this.handleCreate = this.handleCreate.bind(this);
 	}
 
+	async componentDidMount() {
+		const username = localStorage.getItem('username');
+		const token = localStorage.getItem('token');
+
+		const { data } = await axios.get(`/api/polls/${username}`, { params: { token, username } });
+		console.log(data.polls);
+
+		this.setState({ polls: data.polls });
+
+	}
 	viewViews() {
 		this.setState({ view: 'views' });
 	}
@@ -44,23 +55,19 @@ class Secret extends Component {
 		const username = localStorage.getItem('username');
 		const choices = {};
 
-
-		
-
 		for(let i = 0; i <= this.state.choiceIndex; i++) {
 			let choiceValue = form[`choice[${i}]`].value;
 			choices[i] = choiceValue;
 		}
-		
-
 		
 		e.preventDefault();
 		e.stopPropagation();
 		axios.post('/create', { title, choices, token, username })
 		  .then(({data}) => console.log(data));
 	}
+
 	render() {
-		const { view, choices } = this.state;
+		const { view, choices, polls } = this.state;
 		const { viewCreate, viewViews, addChoice, handleCreate } = this;
 
 		return (
@@ -69,7 +76,7 @@ class Secret extends Component {
 				<button onClick={viewViews.bind(this)} >View Polls</button>
 				{view === 'create' ?
 				  <CreatePoll addChoice={addChoice} choices={choices} handler={handleCreate} /> :
-				  <ViewPolls />
+				  <ViewPolls polls={polls} />
 				}
 			</div>
 		);

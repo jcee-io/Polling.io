@@ -102,5 +102,17 @@ module.exports.createPoll = async (username, title, choices) => {
   }));
 
   console.log('hello world');
-  connection.end();
+  
+};
+
+module.exports.getPolls = async username => {
+
+  console.log(username);
+
+  const polls = await connection.queryAsync(`
+    SELECT * FROM Poll WHERE user_id=
+    (SELECT id FROM Users WHERE username = '${username}')
+  `);
+
+  return polls;
 };

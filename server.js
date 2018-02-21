@@ -28,8 +28,10 @@ const requireAuthGET = async (req,res,next) => {
   }
 };
 
-const requireAuthPOST = async (req, res, next) => {
-  const token = await cache.getAsync(req.body.token);
+const requireToken = async (req, res, next) => {
+  req.body = req.body || {};
+  req.query = req.query || {};
+  const token = await cache.getAsync(req.body.token || req.query.token);
   if(token) {
     next();
   } else {
@@ -61,7 +63,11 @@ app.post('/logout', (req,res) => {
 
 // cannot access these pages unless logged in
 app.get('/logout', requireAuthGET, next);
+app.get('/api/polls/:username', requireToken, async(req,res) => {
+  const polls = await db.getPolls(req.query.username);
 
+  res.json({ polls });
+});
 
 // must be logged out to access these pages
 app.get('/login', requireNoAuthGET, next);
@@ -69,12 +75,12 @@ app.get('/signup', requireNoAuthGET, next);
 
 // create poll
 
-app.post('/create', requireAuthPOST, async (req, res) => {
+app.post('/create',  requireToken, async (req, res) => {
   const { username, title, choices } = req.body;
   const choicesArr = Object.keys(choices).map(index => choices[index]);
 
   console.log(choicesArr);
-  
+
   await db.createPoll(username, title, choicesArr);
   res.sendStatus(200);
 });
