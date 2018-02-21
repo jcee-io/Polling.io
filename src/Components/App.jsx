@@ -7,6 +7,8 @@ import Home from './Home';
 import Header from './Header';
 import Logout from './Logout';
 import Secret from './Secret';
+import UserPolls from './UserPolls';
+import UserPollsEntry from './UserPollsEntry';
 import JWTDecode from 'jwt-decode';
 
 class App extends Component {
@@ -111,6 +113,8 @@ class App extends Component {
           	  handler={this.handleSignUp}
           	/>}
           />
+          <Route exact path="/:username" render={() => <UserPolls />} />
+          <Route exact path="/:username/:title" render={() => <UserPollsEntry />} />
         </Switch>
       </div>
     );

@@ -84,6 +84,19 @@ app.post('/create',  requireToken, async (req, res) => {
   await db.createPoll(username, title, choicesArr);
   res.sendStatus(200);
 });
+
+app.get('/api/:username/:title', async (req, res) => {
+  const { username, title } = req.params;
+  const options = await db.getPollsEntry(username, title);
+
+  res.json({ username, title, options });
+});
+
+app.get('/api/:username', async (req,res) => {
+  const polls = await db.getPolls(req.params.username);
+  res.json({ polls });
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });

@@ -116,3 +116,14 @@ module.exports.getPolls = async username => {
 
   return polls;
 };
+
+module.exports.getPollsEntry = async (username, title) => {
+  const options = await connection.queryAsync(`
+    SELECT * FROM PollOptions WHERE poll_id=
+    (SELECT id FROM Poll WHERE user_id =
+    (SELECT id FROM Users WHERE username = '${username}') AND
+    name = '${title}')
+  `);
+
+  return options;
+};
