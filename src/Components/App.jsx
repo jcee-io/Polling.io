@@ -113,8 +113,8 @@ class App extends Component {
           	  handler={this.handleSignUp}
           	/>}
           />
-          <Route exact path="/:username" render={() => <UserPolls />} />
-          <Route exact path="/:username/:title" render={() => <UserPollsEntry />} />
+          <Route exact path="/:username" render={(props) => <UserPolls {...props} />} />
+          <Route exact path="/:username/:title" render={(props) => <UserPollsEntry {...props} />} />
         </Switch>
       </div>
     );
