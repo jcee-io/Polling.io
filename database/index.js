@@ -11,6 +11,10 @@ const connection = db.createConnection(process.env.MARIADB_URL || require('../co
 
 schemaConstructor(connection);
 
+// =================================================================
+// AUTHENTICATION METHODS
+// =================================================================
+
 module.exports.signUp = async (username, password, email) => {
   let users = await connection.queryAsync(`
 		SELECT * FROM Users
@@ -85,6 +89,9 @@ module.exports.login = async (username, password) => {
   connection.end();
 };
 
+// =================================================================
+// POLLING METHODS
+// =================================================================
 
 module.exports.createPoll = async (username, title, choices) => {
   console.log(choices);
@@ -129,4 +136,12 @@ module.exports.getPollsEntry = async (username, title) => {
 
   console.log(options);
   return options;
+};
+
+module.exports.upvote = id => {
+  connection.queryAsync(`
+    UPDATE PollOptions
+    SET votes = votes + 1
+    WHERE id='${id}'
+  `);
 };

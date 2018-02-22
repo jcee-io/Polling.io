@@ -74,6 +74,10 @@ app.get('/login', requireNoAuthGET, next);
 app.get('/signup', requireNoAuthGET, next);
 
 // create poll
+app.put('/vote', (req, res) => {
+  db.upvote(req.body.id);
+  res.sendStatus(200);
+});
 
 app.post('/create',  requireToken, async (req, res) => {
   const { username, title, choices } = req.body;
