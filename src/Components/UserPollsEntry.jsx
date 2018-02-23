@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import { Bar } from 'react-chartjs-2';
 class UserPollsEntry extends Component {
 	constructor(props) {
 		super(props);
@@ -9,11 +9,40 @@ class UserPollsEntry extends Component {
 		this.title = this.props.match.params.title;
 		
 		this.state = {
-			options: {}
+			options: {},
+			chartData: null
 		}
 	}
 
 	async componentDidMount() {
+		await this.setOptions();
+		await this.setChart();
+	}
+
+	async setChart() {
+		const options = Object.keys(this.state.options);
+		const votes = options.map(option => this.state.options[option].votes);
+
+		votes.push(0);
+
+		const chartData = {
+		  labels: options,
+		  datasets: [
+		    {
+		      label: 'hello',
+		      backgroundColor: 'rgba(255,99,132,0.2)',
+		      borderColor: 'rgba(255,99,132,1)',
+		      borderWidth: 1,
+		      hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+		      hoverBorderColor: 'rgba(255,99,132,1)',
+		      data: votes
+		    }
+		  ]
+		};
+
+		this.setState({ chartData });
+	}
+	async setOptions() {
 		const { data } = await axios.get(`/api/${this.username}/${this.title}`)
 
 		const options = {};
@@ -28,20 +57,31 @@ class UserPollsEntry extends Component {
 		this.setState({ options });
 	}
 
-	vote(e) {
+	async vote(e) {
 		const option = e.target.textContent;
 		const options = this.state.options;
 		options[option].votes++;
 
 		axios.put('/vote', { id: options[option].id });
 
-		this.setState({ options });
+		await this.setState({ options });
+		this.setChart();
 	}
 	render () {
 		const { options } = this.state;
 		return (
 			<div>
 			  <h1>{this.title}?</h1>
+			  {this.state.chartData ?
+				  <Bar
+	          data={this.state.chartData}
+	          width={50}
+	          height={25}
+	          options={{
+	            maintainAspectRatio: false
+	          }}
+       		/> : []
+			  }
 			  {Object.keys(options).map(option =>
 			  <h2><button onClick={this.vote.bind(this)}>{option}</button> {options[option].votes}</h2>
 			  ) || []}
