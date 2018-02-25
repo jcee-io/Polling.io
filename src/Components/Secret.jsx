@@ -48,7 +48,7 @@ class Secret extends Component {
 		this.setState({ choices, choiceIndex });
 	}
 
-	handleCreate(e) {
+	async handleCreate(e) {
 		const form = e.target;
 		const title = form.title.value;
 		const token = localStorage.getItem('token');
@@ -62,8 +62,14 @@ class Secret extends Component {
 		
 		e.preventDefault();
 		e.stopPropagation();
-		axios.post('/create', { title, choices, token, username })
-		  .then(({data}) => console.log(data));
+
+		const { data } = await axios.post('/create', { title, choices, token, username });
+		const id = data.id;
+		const polls = this.state.polls;
+
+		polls.push({ id, name: title });
+
+		this.setState({ polls, view: 'views' });
 	}
 
 	render() {

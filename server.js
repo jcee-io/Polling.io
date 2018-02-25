@@ -85,8 +85,11 @@ app.post('/create',  requireToken, async (req, res) => {
 
   console.log(choicesArr);
 
-  await db.createPoll(username, title, choicesArr);
-  res.sendStatus(200);
+  const id = await db.createPoll(username, title, choicesArr);
+
+  console.log(id);
+
+  res.json({ id });
 });
 
 app.get('/api/:username/:title', async (req, res) => {

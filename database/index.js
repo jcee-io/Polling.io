@@ -108,8 +108,7 @@ module.exports.createPoll = async (username, title, choices) => {
     `, [choice, insertId]);
   }));
 
-  console.log('hello world');
-  
+  return insertId;
 };
 
 module.exports.getPolls = async username => {
