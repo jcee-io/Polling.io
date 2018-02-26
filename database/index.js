@@ -123,8 +123,6 @@ module.exports.addChoice = async (username, title, choice) => {
 };
 module.exports.getPolls = async username => {
 
-  console.log(username);
-
   const polls = await connection.queryAsync(`
     SELECT * FROM Poll WHERE user_id=
     (SELECT id FROM Users WHERE username = '${username}')
@@ -135,7 +133,6 @@ module.exports.getPolls = async username => {
 
 module.exports.getPollsEntry = async (username, title) => {
 
-  console.log(username, title);
   const options = await connection.queryAsync(`
     SELECT * FROM PollOptions WHERE poll_id=
     (SELECT id FROM Poll WHERE user_id =
@@ -143,7 +140,6 @@ module.exports.getPollsEntry = async (username, title) => {
     name = '${title}')
   `);
 
-  console.log(options);
   return options;
 };
 

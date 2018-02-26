@@ -131,8 +131,12 @@ app.delete('/poll', requireToken, async (req, res) => {
 
 app.put('/poll/add', requireToken, async (req, res) => {
   console.log(req.body);
+  const { username, title, choice } = req.body;
+  const id = await db.addChoice(username, title, choice);
 
-  res.end();
+  console.log(id);
+
+  res.json({ id });
 });
 
 

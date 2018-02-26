@@ -76,14 +76,16 @@ class UserPollsEntry extends Component {
 		const choice = form.choice.value;
 		const { username, title, token } = this;
 
-		options[choice] = { votes: 0 };
+		
 		e.preventDefault();
 		e.stopPropagation();
-		
-		const id = await axios.put('/poll/add', { username, title, token });
+
+		const { data } = await axios.put('/poll/add', { username, title, token, choice });
 
 
 		form.choice.value = '';
+
+		options[choice] = { votes: 0, id: data.id };
 
 		await this.setState({ options });
 		await this.setChart();
