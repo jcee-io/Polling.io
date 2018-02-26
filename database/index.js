@@ -111,6 +111,16 @@ module.exports.createPoll = async (username, title, choices) => {
   return insertId;
 };
 
+module.exports.addChoice = async (username, title, choice) => {
+  const { insertId } = await connection.queryAsync(`
+    INSERT INTO PollOptions (name, votes, poll_id)
+    VALUES(?, 0, (SELECT id FROM Poll WHERE name=? AND 
+    user_id=(SELECT id FROM Users WHERE username=?)
+    ))
+  `,[choice, title, username]);
+
+  return insertId;
+};
 module.exports.getPolls = async username => {
 
   console.log(username);

@@ -53,6 +53,9 @@ const requireNoAuthGET = async (req, res, next) => {
 
 const next = (req,res,next) => next();
 
+// =====================================
+// Authentication
+// =====================================
 app.post('/signup', auth.signUp);
 app.post('/login', auth.login);
 
@@ -62,28 +65,42 @@ app.post('/logout', (req,res) => {
 });
 
 
-// cannot access these pages unless logged in
+// ==========================================
+// Accessing Pages On Client
+// ==========================================
+
+// must be logged in to access these pages
 app.get('/logout', requireAuthGET, next);
 app.get('/api/polls/:username', requireToken, async(req,res) => {
   const polls = await db.getPolls(req.query.username);
 
   res.json({ polls });
 });
-app.delete('/poll', requireToken, async (req, res) => {
-  await db.deletePoll(req.query.id);
-
-  res.sendStatus(200);
-});
 
 // must be logged out to access these pages
 app.get('/login', requireNoAuthGET, next);
 app.get('/signup', requireNoAuthGET, next);
 
-// create poll
-app.put('/vote', (req, res) => {
-  db.upvote(req.body.id);
-  res.sendStatus(200);
+
+// access individual polls, and user polls
+app.get('/api/:username/:title', async (req, res) => {
+  const { username, title } = req.params;
+  const options = await db.getPollsEntry(username, title);
+
+  res.json({ username, title, options });
 });
+
+app.get('/api/:username', async (req,res) => {
+  const polls = await db.getPolls(req.params.username);
+  res.json({ polls });
+});
+
+
+//  =====================================
+// Poll Methods
+// ======================================
+
+// create poll
 
 app.post('/create',  requireToken, async (req, res) => {
   const { username, title, choices } = req.body;
@@ -98,18 +115,31 @@ app.post('/create',  requireToken, async (req, res) => {
   res.json({ id });
 });
 
-app.get('/api/:username/:title', async (req, res) => {
-  const { username, title } = req.params;
-  const options = await db.getPollsEntry(username, title);
-
-  res.json({ username, title, options });
+// upvote
+app.put('/vote', (req, res) => {
+  db.upvote(req.body.id);
+  res.sendStatus(200);
 });
 
-app.get('/api/:username', async (req,res) => {
-  const polls = await db.getPolls(req.params.username);
-  res.json({ polls });
+//delete a poll
+app.delete('/poll', requireToken, async (req, res) => {
+  await db.deletePoll(req.query.id);
+
+  res.sendStatus(200);
 });
 
+
+app.put('/poll/add', requireToken, async (req, res) => {
+  console.log(req.body);
+
+  res.end();
+});
+
+
+
+// =====================================
+// MISCELLANEOUS
+// =====================================
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
