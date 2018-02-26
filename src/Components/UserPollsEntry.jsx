@@ -8,6 +8,8 @@ class UserPollsEntry extends Component {
 		this.username = this.props.match.params.username;
 		this.title = this.props.match.params.title;
 		
+		this.token = localStorage.getItem('token');
+
 		this.state = {
 			options: {},
 			chartData: null
@@ -67,6 +69,20 @@ class UserPollsEntry extends Component {
 		await this.setState({ options });
 		this.setChart();
 	}
+
+	async handleSubmit(e) {
+		const form = e.target;
+		const options = this.state.options;
+		const choice = form.choice.value;
+		options[choice] = { votes: 0 };
+
+		e.preventDefault();
+		e.stopPropagation();
+		form.choice.value = '';
+
+		await this.setState({ options });
+		await this.setChart();
+	}
 	render () {
 		const { options } = this.state;
 		return (
@@ -85,6 +101,16 @@ class UserPollsEntry extends Component {
 			  {Object.keys(options).map(option =>
 			  <h2><button onClick={this.vote.bind(this)}>{option}</button> {options[option].votes}</h2>
 			  ) || []}
+			  {
+			  	!this.token ?
+			  	<h2>You must be logged in to add more options</h2> :
+			  	<div>
+			  		<form onSubmit={this.handleSubmit.bind(this)}>
+				  		<input name="choice" />
+				  		<button>Add Option</button>
+			  		</form>
+			  	</div>
+			  }
 			</div>
 		);
 	}
