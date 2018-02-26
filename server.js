@@ -31,6 +31,7 @@ const requireAuthGET = async (req,res,next) => {
 const requireToken = async (req, res, next) => {
   req.body = req.body || {};
   req.query = req.query || {};
+
   const token = await cache.getAsync(req.body.token || req.query.token);
   if(token) {
     next();
@@ -67,6 +68,11 @@ app.get('/api/polls/:username', requireToken, async(req,res) => {
   const polls = await db.getPolls(req.query.username);
 
   res.json({ polls });
+});
+app.delete('/poll', requireToken, async (req, res) => {
+  await db.deletePoll(req.query.id);
+
+  res.sendStatus(200);
 });
 
 // must be logged out to access these pages

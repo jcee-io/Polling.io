@@ -144,3 +144,12 @@ module.exports.upvote = id => {
     WHERE id='${id}'
   `);
 };
+
+module.exports.deletePoll = async id => {
+  await connection.queryAsync(`
+    DELETE FROM PollOptions WHERE poll_id = ${id}
+  `);
+  await connection.queryAsync(`
+    DELETE FROM Poll WHERE id = ${id}
+  `);
+};

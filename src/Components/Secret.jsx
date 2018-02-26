@@ -18,6 +18,7 @@ class Secret extends Component {
 		this.viewViews = this.viewViews.bind(this);
 		this.addChoice = this.addChoice.bind(this);
 		this.handleCreate = this.handleCreate.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	async componentDidMount() {
@@ -72,9 +73,30 @@ class Secret extends Component {
 		this.setState({ polls, view: 'views' });
 	}
 
+	handleDelete(e) {
+		let targetPoll;
+		let targetIndex;
+		const polls = this.state.polls;
+		const token = localStorage.getItem('token');
+
+		for(let i = 0; i < polls.length; i++) {
+			let poll = polls[i];
+
+			if(e.target.name === poll.name) {
+				targetPoll = poll;
+				targetIndex = i;
+			}
+		}
+
+		polls.splice(targetIndex, 1);
+
+		this.setState({ polls });
+
+		axios.delete('/poll', { params: { id: targetPoll.id, token } });
+	}
 	render() {
 		const { view, choices, polls } = this.state;
-		const { viewCreate, viewViews, addChoice, handleCreate } = this;
+		const { viewCreate, viewViews, addChoice, handleCreate, handleDelete } = this;
 
 		return (
 			<div>
@@ -82,7 +104,7 @@ class Secret extends Component {
 				<button onClick={viewViews.bind(this)} >View Polls</button>
 				{view === 'create' ?
 				  <CreatePoll addChoice={addChoice} choices={choices} handler={handleCreate} /> :
-				  <ViewPolls polls={polls} />
+				  <ViewPolls polls={polls} handler={handleDelete} />
 				}
 			</div>
 		);
