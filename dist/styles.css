@@ -1,3 +1,9 @@
 nav {
 	padding: 10px 5px;
 }
+
+canvas {
+	width: 1000px !important;
+	height: 700px !important;
+	margin: auto;
+}

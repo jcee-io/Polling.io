@@ -29,7 +29,7 @@ class UserPolls extends Component {
 		return (
 			<div>
 				<h1>{this.username}'s POLLS</h1>
-				{this.state.polls.map(poll => <h2><Link to={`/${this.username}/${poll}`}>{poll}?</Link></h2>)}
+				{this.state.polls.map(poll => <h2><Link to={`/${this.username}/${poll}`}>{poll}</Link></h2>)}
 			</div>
 		);
 	}

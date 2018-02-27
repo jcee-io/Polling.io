@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
+import urlencode from 'urlencode';
+
 class UserPollsEntry extends Component {
 	constructor(props) {
 		super(props);
@@ -94,12 +96,12 @@ class UserPollsEntry extends Component {
 		const { options } = this.state;
 		return (
 			<div>
-			  <h1>{this.title}?</h1>
+			  <h1>{urlencode.decode(this.title)}</h1>
 			  {this.state.chartData ?
 				  <Bar
 	          data={this.state.chartData}
-	          width={50}
-	          height={25}
+	          width={300}
+	          height={300}
 	          options={{
 	            maintainAspectRatio: false
 	          }}
