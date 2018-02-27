@@ -35,3 +35,17 @@ Compile
 ```
 webpack (this is for production build)
 ```
+
+User Stories
+---
+##Authenticated User
+1) Keep polls and come back to access them
+2) Share poll with friends
+3) See the aggregate results of my polls
+4) Delete own polls
+5) Create a poll with any number of possible items
+8) Create a new option on any poll
+
+##Authenticated and Unauthenticated
+1) Vote on everyone's polls
+2) See poll results in chart form
