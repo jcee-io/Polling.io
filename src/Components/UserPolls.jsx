@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import urlencode from 'urlencode';
 
 
 class UserPolls extends Component {
@@ -27,9 +27,15 @@ class UserPolls extends Component {
 
 	render() {
 		return (
-			<div>
+			<div id="user-polls">
 				<h1>{this.username}'s POLLS</h1>
-				{this.state.polls.map(poll => <h2><Link to={`/${this.username}/${poll}`}>{poll}</Link></h2>)}
+				{this.state.polls.map(poll => 
+					<Link style={{ color: 'black'}} to={`/${this.username}/${urlencode(poll)}`}>
+						<button className="btn btn-outline-dark btn-block btn-lg">
+					  	{poll}
+					  </button>
+					</Link>
+				)}
 			</div>
 		);
 	}
