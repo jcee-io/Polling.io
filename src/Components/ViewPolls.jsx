@@ -4,7 +4,6 @@ import urlencode from 'urlencode';
 
 export default ({ polls, handler }) => (
 	<div>
-	  <h1>VIEW POLLS</h1>
 	  {polls.map(poll => 
 	  	<div>
 		  	<button name={poll.name} onClick={handler}>Delete</button>

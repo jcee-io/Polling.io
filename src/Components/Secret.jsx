@@ -9,7 +9,7 @@ class Secret extends Component {
 
 		this.state = {
 			view: 'create',
-			choices: [<input name="choice[0]" />, <br />],
+			choices: [<input className="form-control" name="choice[0]" />, <br />],
 			choiceIndex: 0,
 			polls: []
 		}
@@ -42,7 +42,7 @@ class Secret extends Component {
 	addChoice() {
 		const choices = this.state.choices;
 		const choiceIndex = this.state.choiceIndex + 1;
-		const newChoice = <input name={`choice[${choiceIndex}]`}/>
+		const newChoice = <input className="form-control" name={`choice[${choiceIndex}]`}/>
 
 		choices.push(newChoice, <br />);
 
@@ -99,13 +99,19 @@ class Secret extends Component {
 		const { viewCreate, viewViews, addChoice, handleCreate, handleDelete } = this;
 
 		return (
-			<div>
-				<button onClick={viewCreate.bind(this)}>New Poll</button>
-				<button onClick={viewViews.bind(this)} >View Polls</button>
-				{view === 'create' ?
-				  <CreatePoll addChoice={addChoice} choices={choices} handler={handleCreate} /> :
-				  <ViewPolls polls={polls} handler={handleDelete} />
+			<div id="secret">
+				{view ==='create' ?
+					<h1>Create A New Poll</h1> :
+					<h1>View Your Polls</h1>
 				}
+				<div>
+					<button className="btn btn-outline-dark" onClick={viewCreate.bind(this)}>New Poll</button>
+					<button className="btn btn-outline-dark" onClick={viewViews.bind(this)} >View Polls</button>
+					{view === 'create' ?
+					  <CreatePoll addChoice={addChoice} choices={choices} handler={handleCreate} /> :
+					  <ViewPolls polls={polls} handler={handleDelete} />
+					}
+				</div>
 			</div>
 		);
 	}
