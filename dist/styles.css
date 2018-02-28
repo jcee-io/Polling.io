@@ -12,17 +12,17 @@ body {
 	height: 100%;
 	width: 100%;
 	padding: 0;
+	background: lightgrey;
 }
 
 #home-top, #home-bottom {
-	width: 100.85%;
+	width: 100.80%;
 }
 #home-top {
 	text-align: center;
 	color: whitesmoke;
-	height: 30vh;
 	background: grey;
-	padding: 20px;
+	padding: 30px 20px;
 }
 
 #home-top .btn {
@@ -34,8 +34,6 @@ body {
 }
 
 #home-bottom {
-	background: lightgray;
-	height: 64vh;
 	color: #686868;
 	padding: 10px 0;
 	text-align: center;
