@@ -9,10 +9,12 @@ export default props => {
 
 
 const Form = props => (
-  <form onSubmit={props.handler}>
-    Username: <input name="username"/>
-    Password: <input type="password" name="password"/>
-    Email: <input name="email"/>
-    <button>Submit</button>
-  </form>
+	<div className="auth-form">
+	  <form className="form-group" onSubmit={props.handler}>
+	    Username <br /><input className="form-control" name="username"/><br />
+	    Password <br /><input className="form-control" type="password" name="password"/><br />
+	    Email <br /><input className="form-control" name="email"/><br />
+	    <button className="btn btn-outline-dark btn-block">Submit</button>
+	  </form>
+  </div>
 );
