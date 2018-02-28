@@ -11,6 +11,10 @@ const connection = db.createConnection(process.env.MARIADB_URL || require('../co
 
 schemaConstructor(connection);
 
+setInterval(function () {
+    connection.query('SELECT 1');
+}, 5000);
+
 // =================================================================
 // AUTHENTICATION METHODS
 // =================================================================
