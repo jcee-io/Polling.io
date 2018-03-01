@@ -34,7 +34,10 @@ const Chart = ({ chartData }) => (
 	      width={300}
 	      height={300}
 	      options={{
-	        maintainAspectRatio: false
+	        maintainAspectRatio: false,
+	        legend: {
+	        	display: false
+	        }
 	      }}
 	 		/> : []
 	  }
@@ -84,12 +87,12 @@ class UserPollsEntry extends Component {
 		  labels: options,
 		  datasets: [
 		    {
-		      label: 'hello',
-		      backgroundColor: 'rgba(255,99,132,0.2)',
-		      borderColor: 'rgba(255,99,132,1)',
+		      label: options,
+		      backgroundColor: 'darkgrey',
+		      borderColor: 'grey',
 		      borderWidth: 1,
-		      hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-		      hoverBorderColor: 'rgba(255,99,132,1)',
+		      hoverBackgroundColor: 'lightgrey',
+		      hoverBorderColor: 'grey',
 		      data: votes
 		    }
 		  ]
