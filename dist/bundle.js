@@ -33977,43 +33977,64 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var NormalHeader = function NormalHeader() {
   return _react2.default.createElement(
-    'nav',
-    null,
+    'ul',
+    { className: 'nav navbar-nav ml-auto navbar-right' },
     _react2.default.createElement(
-      _reactRouterDom.Link,
-      { to: '/' },
-      'Home'
+      'li',
+      { className: 'nav-item' },
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { className: 'nav-link', to: '/signup' },
+        'Sign Up'
+      )
     ),
     _react2.default.createElement(
-      _reactRouterDom.Link,
-      { to: '/signup' },
-      'Sign Up'
-    ),
-    _react2.default.createElement(
-      _reactRouterDom.Link,
-      { to: '/login' },
-      'Login'
+      'li',
+      { className: 'nav-item' },
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { className: 'nav-link', to: '/login' },
+        'Login'
+      )
     )
   );
 };
 
 var SecretHeader = function SecretHeader() {
   return _react2.default.createElement(
-    'nav',
-    null,
+    'ul',
+    { className: 'nav navbar-nav ml-auto navbar-right' },
     _react2.default.createElement(
-      _reactRouterDom.Link,
-      { to: '/logout' },
-      'Logout'
+      'li',
+      { className: 'nav-item' },
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { className: 'nav-link', to: '/logout' },
+        'Logout'
+      )
     )
   );
 };
 
 exports.default = function (props) {
   return _react2.default.createElement(
-    'div',
-    null,
-    props.authenticated ? _react2.default.createElement(SecretHeader, null) : _react2.default.createElement(NormalHeader, null)
+    'nav',
+    { className: 'navbar navbar-expand-lg navbar-light bg-light' },
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { className: 'navbar-brand', to: '/' },
+      'Polling.io'
+    ),
+    _react2.default.createElement(
+      'button',
+      { className: 'navbar-toggler', type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbarNavDropdown', 'aria-controls': 'navbarNavDropdown', 'aria-expanded': 'false', 'aria-label': 'Toggle navigation' },
+      _react2.default.createElement('span', { className: 'navbar-toggler-icon' })
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'collapse navbar-collapse order-3', id: 'navbarNavDropdown' },
+      props.authenticated ? _react2.default.createElement(SecretHeader, null) : _react2.default.createElement(NormalHeader, null)
+    )
   );
 };
 
