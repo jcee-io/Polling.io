@@ -1,3 +1,80 @@
 nav {
 	padding: 10px 5px;
 }
+
+canvas {
+	width: 90% !important;
+	height: 40% !important;
+	margin: 15vh auto;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	background: lightgrey;
+}
+
+#home-top, #home-bottom {
+	width: 100.80%;
+}
+#home-top {
+	text-align: center;
+	color: whitesmoke;
+	background: grey;
+	padding: 30px 20px;
+}
+
+#home-top .btn {
+	width: 200px;
+	font-size: 20px;
+	margin: 0 10px;
+	margin-top: 2%;
+	padding: 10px;
+}
+
+#home-bottom {
+	color: #686868;
+	padding: 10px 0;
+	text-align: center;
+}
+
+#home-bottom .fa {
+	font-size: 100px;
+	margin: 20px;
+}
+
+#home-bottom div {
+	padding: 0 2%;
+}
+#home-bottom p {
+	text-align: left;
+	font-size: 20px;
+}
+
+#user-polls {
+	width: 650px;
+	margin: auto;
+	text-align: center;
+}
+
+#user-polls h1 {
+	font-size: 50px;
+	margin: 20px 0;
+}
+
+#poll-entry {
+	text-align: center;
+}
+
+#poll-entry h1 {
+	font-size: 50px;
+}
+#poll-entry #poll-options {
+	margin: 50px auto;
+	width: 650px;
+}
+
+#poll-entry #add-option {
+	margin-top: 50px;
+}
