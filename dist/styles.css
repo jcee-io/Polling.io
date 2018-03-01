@@ -3,8 +3,8 @@ nav {
 }
 
 canvas {
-	width: 1000px !important;
-	height: 700px !important;
+	width: 90% !important;
+	height: 40% !important;
 	margin: auto;
 }
 
@@ -61,4 +61,20 @@ body {
 #user-polls h1 {
 	font-size: 50px;
 	margin: 20px 0;
+}
+
+#poll-entry {
+	text-align: center;
+}
+
+#poll-entry h1 {
+	font-size: 50px;
+}
+#poll-entry #poll-options {
+	margin: 50px auto;
+	width: 650px;
+}
+
+#poll-entry #add-option {
+	margin-top: 50px;
 }

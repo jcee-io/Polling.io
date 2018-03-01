@@ -87,6 +87,8 @@ app.get('/api/:username/:title', async (req, res) => {
   const { username, title } = req.params;
   const options = await db.getPollsEntry(username, title);
 
+  console.log(req.params);
+  
   res.json({ username, title, options });
 });
 
@@ -110,8 +112,6 @@ app.post('/create',  requireToken, async (req, res) => {
 
   const id = await db.createPoll(username, title, choicesArr);
 
-  console.log(id);
-
   res.json({ id });
 });
 
@@ -133,8 +133,6 @@ app.put('/poll/add', requireToken, async (req, res) => {
   console.log(req.body);
   const { username, title, choice } = req.body;
   const id = await db.addChoice(username, title, choice);
-
-  console.log(id);
 
   res.json({ id });
 });
