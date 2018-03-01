@@ -33933,7 +33933,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = function (props) {
   if (props.authenticated) {
-    return _react2.default.createElement(_Secret2.default, null);
+    return _react2.default.createElement(_Secret2.default, { view: props.secretView });
   }
 
   return _react2.default.createElement(Home, null);
@@ -33942,16 +33942,98 @@ exports.default = function (props) {
 var Home = function Home() {
   return _react2.default.createElement(
     'div',
-    null,
+    { id: 'home' },
     _react2.default.createElement(
-      _reactRouterDom.Link,
-      { className: 'btn btn-success', to: '/signup' },
-      'Sign Up'
+      'div',
+      { className: 'row', id: 'home-top' },
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-12' },
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Polling.io'
+        ),
+        _react2.default.createElement(
+          'h2',
+          null,
+          'Enhance your discussion'
+        ),
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { className: 'home-button btn btn-success', to: '/signup' },
+          'Sign Up'
+        ),
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { className: 'home-button btn btn-success', to: '/login' },
+          'Login'
+        )
+      )
     ),
     _react2.default.createElement(
-      _reactRouterDom.Link,
-      { className: 'btn btn-success', to: '/login' },
-      'Login'
+      'div',
+      { className: 'row', id: 'home-bottom' },
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-3' },
+        _react2.default.createElement('i', { className: 'fa fa-list-ul' }),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Create Your Own Polls'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Feel free to create your own poll to enhance your discussion. All you need to do is create an account to save all of your polls. However, anyone can vote regardless of having an account. Sign up today!'
+        )
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-3' },
+        _react2.default.createElement('i', { className: 'fa fa-user' }),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Share With Your Friends'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Planning to go on a trip? Trying to stay organized? You can go ahead create a poll and share for your friends to choose from.'
+        )
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-3' },
+        _react2.default.createElement('i', { className: 'fa fa-paste' }),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Get Results Instantly'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Your results are displayed on a chart and responds to your vote. You can leave and come back later to see if anyone voted for it.'
+        )
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-3' },
+        _react2.default.createElement('i', { className: 'fa fa-code' }),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Open Source'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'This website is open to being improved, innovated, and has an existing codebase on GitHub. Contributions and Pull Requests are very welcome.'
+        )
+      )
     )
   );
 };
