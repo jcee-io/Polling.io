@@ -33836,7 +33836,7 @@ module.exports = function spread(callback) {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _react = __webpack_require__(6);
@@ -33848,25 +33848,35 @@ var _reactRouterDom = __webpack_require__(49);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
-  return !props.authenticated ? _react2.default.createElement(Form, props) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
+	return !props.authenticated ? _react2.default.createElement(Form, props) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
 };
 
 var Form = function Form(props) {
-  return _react2.default.createElement(
-    'form',
-    { onSubmit: props.handler },
-    'Username: ',
-    _react2.default.createElement('input', { name: 'username' }),
-    'Password: ',
-    _react2.default.createElement('input', { type: 'password', name: 'password' }),
-    'Email: ',
-    _react2.default.createElement('input', { name: 'email' }),
-    _react2.default.createElement(
-      'button',
-      null,
-      'Submit'
-    )
-  );
+	return _react2.default.createElement(
+		'div',
+		{ className: 'auth-form' },
+		_react2.default.createElement(
+			'form',
+			{ className: 'form-group', onSubmit: props.handler },
+			'Username ',
+			_react2.default.createElement('br', null),
+			_react2.default.createElement('input', { className: 'form-control', name: 'username' }),
+			_react2.default.createElement('br', null),
+			'Password ',
+			_react2.default.createElement('br', null),
+			_react2.default.createElement('input', { className: 'form-control', type: 'password', name: 'password' }),
+			_react2.default.createElement('br', null),
+			'Email ',
+			_react2.default.createElement('br', null),
+			_react2.default.createElement('input', { className: 'form-control', name: 'email' }),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'button',
+				{ className: 'btn btn-outline-dark btn-block' },
+				'Submit'
+			)
+		)
+	);
 };
 
 /***/ }),
@@ -33877,7 +33887,7 @@ var Form = function Form(props) {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _react = __webpack_require__(6);
@@ -33889,23 +33899,31 @@ var _reactRouterDom = __webpack_require__(49);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
-  return !props.authenticated ? _react2.default.createElement(Form, props) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
+	return !props.authenticated ? _react2.default.createElement(Form, props) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
 };
 
 var Form = function Form(props) {
-  return _react2.default.createElement(
-    'form',
-    { onSubmit: props.handler },
-    'Username: ',
-    _react2.default.createElement('input', { name: 'username' }),
-    'Password: ',
-    _react2.default.createElement('input', { type: 'password', name: 'password' }),
-    _react2.default.createElement(
-      'button',
-      null,
-      'Submit'
-    )
-  );
+	return _react2.default.createElement(
+		'div',
+		{ className: 'auth-form' },
+		_react2.default.createElement(
+			'form',
+			{ className: 'form-group', onSubmit: props.handler },
+			'Username ',
+			_react2.default.createElement('br', null),
+			_react2.default.createElement('input', { className: 'form-control', name: 'username' }),
+			_react2.default.createElement('br', null),
+			'Password ',
+			_react2.default.createElement('br', null),
+			_react2.default.createElement('input', { className: 'form-control', type: 'password', name: 'password' }),
+			_react2.default.createElement('br', null),
+			_react2.default.createElement(
+				'button',
+				{ className: 'btn btn-outline-dark btn-block' },
+				'Submit'
+			)
+		)
+	);
 };
 
 /***/ }),
