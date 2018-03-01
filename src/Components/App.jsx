@@ -29,6 +29,7 @@ class App extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('token');
+    console.log(localStorage);
     if(token) {
       this.setState({ authenticated: true });
       const { username } = JWTDecode(token);
@@ -42,7 +43,13 @@ class App extends Component {
     }
 
     if(token) {
+      const { username } = JWTDecode(token);
+
       localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
+
+      console.log(localStorage);
+
       this.setState({ authenticated: true }); 
     }
   }

@@ -12,11 +12,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('cors')());
 
-// if(process.env.NODE_ENV !== 'production') {
-//  const webpackDevMiddleware = require('./webpack.dev');
-//   app.use(webpackDevMiddleware);  
-//   require('dotenv').config();
-// }
+if(process.env.NODE_ENV !== 'production') {
+ const webpackDevMiddleware = require('./webpack.dev');
+  app.use(webpackDevMiddleware);  
+  require('dotenv').config();
+}
 
 const requireAuthGET = async (req,res,next) => {
   const token = await cache.getAsync('token');
@@ -108,7 +108,7 @@ app.post('/create',  requireToken, async (req, res) => {
   const { username, title, choices } = req.body;
   const choicesArr = Object.keys(choices).map(index => choices[index]);
 
-  console.log(choicesArr);
+  console.log(req.body);
 
   const id = await db.createPoll(username, title, choicesArr);
 
