@@ -36,7 +36,6 @@ module.exports.signUp = async (username, password, email) => {
   	return false;
   } 
 
-  console.log(users[0]);
 
   if(user.username === username) {
   	return { error: 'That username exists' };
@@ -76,8 +75,6 @@ module.exports.login = async (username, password) => {
   
   const user = users[0]; 
 
-  console.log(user);
-
   if(user) {
   	const compare = await bcrypt.compareAsync(password, user.password);
   	
@@ -98,7 +95,6 @@ module.exports.login = async (username, password) => {
 // =================================================================
 
 module.exports.createPoll = async (username, title, choices) => {
-  console.log(choices);
 
   const { insertId } = await connection.queryAsync(`
     INSERT INTO Poll (name, user_id)

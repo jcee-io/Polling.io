@@ -86,8 +86,6 @@ app.get('/signup', requireNoAuthGET, next);
 app.get('/api/:username/:title', async (req, res) => {
   const { username, title } = req.params;
   const options = await db.getPollsEntry(username, title);
-
-  console.log(req.params);
   
   res.json({ username, title, options });
 });
@@ -107,8 +105,6 @@ app.get('/api/:username', async (req,res) => {
 app.post('/create',  requireToken, async (req, res) => {
   const { username, title, choices } = req.body;
   const choicesArr = Object.keys(choices).map(index => choices[index]);
-
-  console.log(req.body);
 
   const id = await db.createPoll(username, title, choicesArr);
 
@@ -130,7 +126,6 @@ app.delete('/poll', requireToken, async (req, res) => {
 
 
 app.put('/poll/add', requireToken, async (req, res) => {
-  console.log(req.body);
   const { username, title, choice } = req.body;
   const id = await db.addChoice(username, title, choice);
 
