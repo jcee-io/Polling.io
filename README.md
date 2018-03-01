@@ -1,7 +1,11 @@
 Polling.io - An Application to Further Discussion
 ---
 
-LIVE LINK: TBA
+LIVE LINK: http://polling-io.herokuapp.com/
+
+IMPORTANT NOTE: There was some vague errors in the last build, and this had to be rebuilt almost exactly the same to be deployment-friendly. However, all of the commits were lost. Please refer to the development branch to see the actual commits and not the fixed ones.
+
+FUTURE DEVELOPMENTS: Please clone out of this branch.
 
 This application uses the React-Auth (Token-based) boilerplate I've created as the initial commit. Here is the link:
 https://github.com/jcruzz/react-router-auth-boilerplate-sql
