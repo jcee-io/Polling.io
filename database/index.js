@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 const db = Promise.promisifyAll(require('mysql2'));
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
+const schemaConstructor = require('./schema');
 
 if(process.env.NODE_ENV !== "production") {
 	require('dotenv').config();
@@ -8,24 +9,15 @@ if(process.env.NODE_ENV !== "production") {
 
 const connection = db.createConnection(process.env.MARIADB_URL || require('../connectionSQL'));
 
-console.log(process.env.MARIADB_URL);
+schemaConstructor(connection);
 
-(async () => {
-	await connection.connect();
-	
-	await connection.queryAsync('CREATE DATABASE IF NOT EXISTS App');
-	await connection.queryAsync('USE App');
-	
+setInterval(function () {
+    connection.query('SELECT 1');
+}, 5000);
 
-	await connection.queryAsync(
-		`CREATE TABLE IF NOT EXISTS Users (
-			id INTEGER PRIMARY KEY AUTO_INCREMENT,
-			username VARCHAR(255) NOT NULL,
-			password VARCHAR(255) NOT NULL,
-			email VARCHAR(255)
-		 )`
-	);
-})();
+// =================================================================
+// AUTHENTICATION METHODS
+// =================================================================
 
 module.exports.signUp = async (username, password, email) => {
   let users = await connection.queryAsync(`
@@ -51,6 +43,8 @@ module.exports.signUp = async (username, password, email) => {
   } else {
   	return { error: 'That email exists' };
   }
+
+  connection.end();
 };
 
 
@@ -65,10 +59,14 @@ module.exports.findOne = async (username, callback) => {
 	} catch(err) {
 		callback(err, null);
 	}
+
+  connection.end();
 };
 
 module.exports.verifyPassword = async password => {
   return await bcrypt.compareAsync(password, user.password);
+
+  connection.end();
 };
 module.exports.login = async (username, password) => {
   let users = await connection.queryAsync(`
@@ -91,4 +89,77 @@ module.exports.login = async (username, password) => {
   } else {
   	return { error: 'user does not exist' };
   }
+
+  connection.end();
+};
+
+// =================================================================
+// POLLING METHODS
+// =================================================================
+
+module.exports.createPoll = async (username, title, choices) => {
+  console.log(choices);
+
+  const { insertId } = await connection.queryAsync(`
+    INSERT INTO Poll (name, user_id)
+    VALUES(?, (SELECT id FROM Users WHERE username = ?))
+  `, [title, username]);
+
+  await Promise.all(choices.map(choice => {
+    return connection.queryAsync(`
+      INSERT INTO PollOptions (name, votes, poll_id)
+      VALUES(?, 0, (SELECT id FROM Poll WHERE id = ?))
+    `, [choice, insertId]);
+  }));
+
+  return insertId;
+};
+
+module.exports.addChoice = async (username, title, choice) => {
+  const { insertId } = await connection.queryAsync(`
+    INSERT INTO PollOptions (name, votes, poll_id)
+    VALUES(?, 0, (SELECT id FROM Poll WHERE name=? AND 
+    user_id=(SELECT id FROM Users WHERE username=?)
+    ))
+  `,[choice, title, username]);
+
+  return insertId;
+};
+module.exports.getPolls = async username => {
+
+  const polls = await connection.queryAsync(`
+    SELECT * FROM Poll WHERE user_id=
+    (SELECT id FROM Users WHERE username = '${username}')
+  `);
+
+  return polls;
+};
+
+module.exports.getPollsEntry = async (username, title) => {
+
+  const options = await connection.queryAsync(`
+    SELECT * FROM PollOptions WHERE poll_id=
+    (SELECT id FROM Poll WHERE user_id =
+    (SELECT id FROM Users WHERE username = '${username}') AND
+    name = '${title}')
+  `);
+
+  return options;
+};
+
+module.exports.upvote = id => {
+  connection.queryAsync(`
+    UPDATE PollOptions
+    SET votes = votes + 1
+    WHERE id='${id}'
+  `);
+};
+
+module.exports.deletePoll = async id => {
+  await connection.queryAsync(`
+    DELETE FROM PollOptions WHERE poll_id = ${id}
+  `);
+  await connection.queryAsync(`
+    DELETE FROM Poll WHERE id = ${id}
+  `);
 };
