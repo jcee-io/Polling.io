@@ -13,33 +13,6 @@ https://github.com/jcruzz/react-router-auth-boilerplate-sql
 
 Tech Stack: MariaDB, Redis, Node, Express, React, React-Router, JSONWebToken
 
-Usage
----
- 
-Start the development server with this command:
- 
-```
-npm start
-```
- 
- 
- 
-Setup
----
- 
-```
-npm install
-```
- 
- 
- 
-Compile
----
- 
-```
-webpack (this is for production build)
-```
-
 User Stories
 ---
 ##Authenticated User
@@ -53,3 +26,7 @@ User Stories
 ##Authenticated and Unauthenticated
 1) Vote on everyone's polls
 2) See poll results in chart form
+
+System Design
+---
+![system](/polling-io-visual.png)
